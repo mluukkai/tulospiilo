@@ -21,7 +21,7 @@ export default async function Page({ params: { team } }: { params: { team: strin
         games={gamesOfTheDay} hide={team.toLowerCase()}
       />
 
-      {dates.map((date: string) => (
+      {false && dates.map((date: string) => (
         <span className="p-4" key={date}>
           {date}
         </span>
