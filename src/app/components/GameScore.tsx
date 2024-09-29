@@ -85,8 +85,17 @@ const Game = ({ game, hide } : { game: GameResult, hide: string}) => {
     return null
   }
 
+  const gameNotStarted = !game.awayTeam.score && !game.homeTeam.score
+
+  const startTimeInFinnishTime = new Date(game.startTimeUTC).toLocaleString("fi-FI", {
+    timeZone: "Europe/Helsinki",
+    hour: "2-digit",
+  });
+
+  console.log(startTimeInFinnishTime)
+
   return (
-    <div onClick={() => setVisible(!visible)}>
+    <div onClick={() => !gameNotStarted && setVisible(!visible)}>
       <div className="flex flex-row mb-5">
         <Image
           className="flex-none"
@@ -109,7 +118,7 @@ const Game = ({ game, hide } : { game: GameResult, hide: string}) => {
         />
 
         <div className="flex-none w-24 ml-3">
-          {game.awayTeam.score} - {game.homeTeam.score}
+          {gameNotStarted ? <>alkaa klo {startTimeInFinnishTime}</> : <>{game.awayTeam.score} - {game.homeTeam.score}</>}
         </div>
       </div>
       
