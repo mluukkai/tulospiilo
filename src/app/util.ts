@@ -134,7 +134,7 @@ export const teams = [
   },
   {
     abr: 'UTA',
-    logo: 'https://assets.nhle.com/logos/nhl/svg/UTA_light.svg"',
+    logo: 'https://assets.nhle.com/logos/nhl/svg/UTA_light.svg',
     name: 'Utah Hockey Club'
   },
   {
