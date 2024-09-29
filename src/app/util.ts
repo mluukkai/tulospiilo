@@ -1,12 +1,20 @@
+import { get } from "http";
+
 //export const BASE_URL='http://localhost:3001' 
 export const BASE_URL='https://api-web.nhle.com'
 
-export const getDate = () : string => {
+export const getCurrentCorretDate = () : string => {
   const now = new Date();
   if (now.getHours() < 22) {
     now.setDate(now.getDate() - 1);
   }
   return now.toISOString().split('T')[0];
+}
+
+export const getLimitDate = () => {
+  const date = new Date(getCurrentCorretDate()) 
+  date.setDate(date.getDate() + 1);
+  return date 
 }
 
 export const teams = [

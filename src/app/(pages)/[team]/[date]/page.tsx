@@ -2,7 +2,7 @@ import axios from "axios"
 import Link from 'next/link'
 
 import GamesOfDate from "@/app/components/GamesOfDate"
-import { BASE_URL, getDate as getCurrentCorretDate } from "@/app/util"
+import { BASE_URL, getCurrentCorretDate, getLimitDate } from "@/app/util"
 
 export default async function Page({ params: { team, date } }: { params: { team: string, date: string } }) {
   const url =  `${BASE_URL}/v1/scoreboard/now`
@@ -10,8 +10,10 @@ export default async function Page({ params: { team, date } }: { params: { team:
   const { data } = await axios.get(url)
   const { gamesByDate } = data
 
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const dates = gamesByDate.map((game: any) => game.date) as string[]
+  const currentDate = new Date();
+  const dates = gamesByDate
+    .map((game: { date: string }) => game.date)
+    .filter((d: string) => new Date(d) <= getLimitDate());
 
   const possibleDate = dates.includes(date) ? date : getCurrentCorretDate()
 
