@@ -11,7 +11,6 @@ export default async function Page({ params: { team, date } }: { params: { team:
   const { data } = await axios.get(url)
   const { gamesByDate } = data
 
-  const currentDate = new Date();
   const dates = gamesByDate
     .map((game: { date: string }) => game.date)
     .filter((d: string) => new Date(d) <= getLimitDate());
