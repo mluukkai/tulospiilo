@@ -3,15 +3,8 @@ import Link from 'next/link'
 import { teams } from '../util'
 
 const Home = async () => {
-  const orderByName = (a: { name: string }, b: { name: string }) => {
-    if (a.name < b.name) {
-      return -1
-    }
-    if (a.name > b.name) {
-      return 1
-    }
-    return 0
-  }
+  const orderByName = (a: { name: string }, b: { name: string }) =>
+    a.name < b.name ? -1 : a.name > b.name ? 1 : 0
 
   return (
     <div className="m-5">
@@ -27,13 +20,7 @@ const Home = async () => {
                 width={50}
                 height={50}
               />
-              <div className="ml-3">
-    
-                  {team.name}
-                
-                
-              </div>
-            
+              <div className="ml-3">{team.name}</div>
             </div>
           </Link>
         ))}

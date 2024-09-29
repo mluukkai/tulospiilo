@@ -13,13 +13,13 @@ const GamesOfTheDay = async ({ games, hide } : { games: Game[], hide: string }) 
 
   return (
     <>
-        <div>
-          {results.map((game) => (
-            <div key={game.id} className="m-5">
-              <GameScore game={game} hide={hide} />
-            </div>
-          ))}
-        </div>
+      <div>
+        {results.map((game) => (
+          <div key={game.id} className="m-5">
+            <GameScore game={game} hide={hide} />
+          </div>
+        ))}
+      </div>
     </>
   )
 }

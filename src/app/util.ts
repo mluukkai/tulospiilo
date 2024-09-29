@@ -1,6 +1,14 @@
 //export const BASE_URL='http://localhost:3001' 
 export const BASE_URL='https://api-web.nhle.com'
 
+export const getDate = () : string => {
+  const now = new Date();
+  if (now.getHours() < 22) {
+    now.setDate(now.getDate() - 1);
+  }
+  return now.toISOString().split('T')[0];
+}
+
 export const teams = [
   {
     abr: 'NYR',
