@@ -1,5 +1,6 @@
 import axios from "axios"
 import Link from 'next/link'
+import { redirect } from 'next/navigation'
 
 import GamesOfDate from "@/app/components/GamesOfDate"
 import { BASE_URL, getCurrentCorretDate, getLimitDate } from "@/app/util"
@@ -18,6 +19,10 @@ export default async function Page({ params: { team, date } }: { params: { team:
   const possibleDate = dates.includes(date) ? date : getCurrentCorretDate()
 
   const selectedDate = dates.includes(possibleDate) ? possibleDate : dates[0]
+
+  if (selectedDate !== date) {
+    redirect(`/${team}/${selectedDate}`)
+  }
 
   const gamesOfTheDay = gamesByDate.find((game: { date: string }) => game.date === selectedDate).games
 
