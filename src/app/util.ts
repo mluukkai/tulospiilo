@@ -6,6 +6,8 @@ export const getCurrentCorretDate = () : string => {
   if (now.getHours() < 22) {
     now.setDate(now.getDate() - 1);
   }
+  
+  //return "2024-09-28"
   return now.toISOString().split('T')[0];
 }
 

@@ -1,5 +1,4 @@
 "use client";
-import { useState } from "react";
 import Image from 'next/image'
 import { GameResult, Period, PeriodGoal } from "../types";
 
@@ -64,7 +63,7 @@ const PeriodView = ({ period, game } : { period: Period, game: GameResult }) => 
 
 const Details = ({ game } : { game: GameResult }) => {  
   return (
-    <div className="mb-10">    
+    <div className="mb-20">
       <div>shots on goal:  {game.awayTeam.sog} - {game.homeTeam.sog}</div>
 
       {game.summary.scoring.map((period) =>
@@ -74,28 +73,54 @@ const Details = ({ game } : { game: GameResult }) => {
   )
 }
 
-const Game = ({ game, hide } : { game: GameResult, hide: string}) => {
-  const [visible, setVisible] = useState(false)
-
-  const home = game.homeTeam.abbrev
-  const away = game.awayTeam.abbrev
-  const hideResult = hide.toLowerCase() === home.toLowerCase() || hide === away.toLowerCase()
-
+const Result = ({ game, hideResult } : { game: GameResult, hideResult:boolean }) => {
   if (hideResult) {
-    return null
+    return <div className="flex-none w-24 ml-3 italic">piilossa</div>
   }
-
-  const gameNotStarted = !game.awayTeam.score && !game.homeTeam.score
 
   const startTimeInFinnishTime = new Date(game.startTimeUTC).toLocaleString("fi-FI", {
     timeZone: "Europe/Helsinki",
     hour: "2-digit",
   });
 
-  console.log(startTimeInFinnishTime)
+  const gameNotStarted = !game.awayTeam.score && !game.homeTeam.score
 
   return (
-    <div onClick={() => !gameNotStarted && setVisible(!visible)}>
+    <div className="flex-none w-24 ml-3">
+    {gameNotStarted ? <>alkaa klo {startTimeInFinnishTime}</> : <>{game.awayTeam.score} - {game.homeTeam.score}</>}
+  </div>
+  )
+}
+
+type GameProps = {
+  game: GameResult,
+  hide: string,
+  details: number,
+  setDetails: (details: number) => void 
+}
+
+const Game = ({ game, hide, details, setDetails } : GameProps ) => {
+  const visible = details === game.id
+
+  const home = game.homeTeam.abbrev
+  const away = game.awayTeam.abbrev
+  const hideResult = hide.toLowerCase() === home.toLowerCase() || hide === away.toLowerCase()
+
+  const gameNotStarted = !game.awayTeam.score && !game.homeTeam.score
+
+  const toggleDetails = () => {
+    if (gameNotStarted) {
+      return null
+    }
+    if (visible) {
+      return setDetails(-1)
+    }
+
+    setDetails(game.id)
+  }
+
+  return (
+    <div onClick={toggleDetails}>
       <div className="flex flex-row mb-5">
         <Image
           className="flex-none"
@@ -117,12 +142,10 @@ const Game = ({ game, hide } : { game: GameResult, hide: string}) => {
           height={50}
         />
 
-        <div className="flex-none w-24 ml-3">
-          {gameNotStarted ? <>alkaa klo {startTimeInFinnishTime}</> : <>{game.awayTeam.score} - {game.homeTeam.score}</>}
-        </div>
+        <Result game={game} hideResult={hideResult}/>
       </div>
       
-      {visible && <Details game={game} />}
+      {!hideResult && visible && <Details game={game} />}
     </div>
   )
 
